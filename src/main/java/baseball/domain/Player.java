@@ -1,22 +1,20 @@
 package baseball.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static baseball.util.Validator.duplicatedNumber;
+import static baseball.util.Validator.validateCheckNumberSize;
+
 public class Player {
-    public final List<Integer> player;
+    private final List<Integer> player;
 
     public Player(List<Integer> player) {
+        validateCheckNumberSize(player);
+        duplicatedNumber(player);
         this.player = player;
     }
 
-    public static List<Integer> generatePlayerNumbers(String input){
-        List<Integer> playerNumbers = new ArrayList<>();
-
-        for (String number : input.split("")){
-            playerNumbers.add(Integer.parseInt(number));
-        }
-
-        return playerNumbers;
+    public int get(int index) {
+        return player.get(index);
     }
 }

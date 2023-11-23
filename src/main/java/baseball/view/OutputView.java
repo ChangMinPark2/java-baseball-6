@@ -1,16 +1,20 @@
 package baseball.view;
 
+import baseball.domain.Computer;
 import baseball.domain.GameDiscriminator;
-import java.util.List;
+import baseball.domain.Player;
 
-public class OutputView {
+import static baseball.util.GlobalConstant.NO_BALL;
+import static baseball.util.GlobalConstant.NO_STRIKE;
+
+public final class OutputView {
     public static final String GAME_START_MESSAGE = "숫자 야구 게임을 시작합니다.";
+    public static final String GAME_END = "3개의 숫자를 모두 맞히셨습니다! 게임 종료";
 
-    public void gameEnd() {
-        System.out.print("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+    private OutputView() {
     }
 
-    public void gameStatus(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
+    public static void gameStatus(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
         if (!gameDiscriminator.checkNotThing(computer, player)){
             checkStrikePrint(computer, player, gameDiscriminator);
             checkBallPrint(computer, player, gameDiscriminator);
@@ -19,43 +23,42 @@ public class OutputView {
         notThingPrint(computer, player, gameDiscriminator);
     }
 
-    private void checkStrikePrint(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
-        if (gameDiscriminator.checkBall(computer, player) == 0) {
+    private static void checkStrikePrint(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
+        if (gameDiscriminator.checkBall(computer, player) == NO_BALL) {
             strikePrint(computer, player, gameDiscriminator);
         }
     }
 
-    private void checkBallPrint(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
-        if (gameDiscriminator.checkStrike(computer, player) == 0) {
+    private static void checkBallPrint(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
+        if (gameDiscriminator.checkStrike(computer, player) == NO_STRIKE) {
             ballPrint(computer, player, gameDiscriminator);
         }
     }
 
-    private void notThingPrint(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
+    private static void notThingPrint(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
         if (gameDiscriminator.checkNotThing(computer, player)) {
             System.out.println("낫싱");
         }
     }
 
-    private void strikeAndBallPrint(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
+    private static void strikeAndBallPrint(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
         if (checkStrikeAndBall(computer, player, gameDiscriminator)) {
             System.out.println(gameDiscriminator.checkBall(computer, player) + "볼" + " " +
                     gameDiscriminator.checkStrike(computer, player) + "스트라이크");
         }
     }
 
-    private boolean checkStrikeAndBall(List<Integer> computer,
-                                       List<Integer> player,
+    private static boolean checkStrikeAndBall(Computer computer, Player player,
                                        GameDiscriminator gameDiscriminator) {
-        return gameDiscriminator.checkStrike(computer, player) != 0 &&
-                gameDiscriminator.checkBall(computer, player) != 0;
+        return gameDiscriminator.checkStrike(computer, player) != NO_STRIKE &&
+                gameDiscriminator.checkBall(computer, player) != NO_BALL;
     }
 
-    private void strikePrint(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
+    private static void strikePrint(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
         System.out.println(gameDiscriminator.checkStrike(computer, player) + "스트라이크");
     }
 
-    private void ballPrint(List<Integer> computer, List<Integer> player, GameDiscriminator gameDiscriminator) {
+    private static void ballPrint(Computer computer, Player player, GameDiscriminator gameDiscriminator) {
         System.out.println(gameDiscriminator.checkBall(computer, player) + "볼");
     }
 }
